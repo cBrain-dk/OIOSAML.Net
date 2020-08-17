@@ -239,6 +239,7 @@
     <Compile Include="Saml20Assertion.cs" />
     <Compile Include="Schema\Metadata\AdditionalMetadataLocation.cs" />
     <Compile Include="Schema\Metadata\AffiliationDescriptor.cs" />
+    <Compile Include="Schema\Metadata\ApplicationServiceType.cs" />
     <Compile Include="Schema\Metadata\AttributeAuthorityDescriptor.cs" />
     <Compile Include="Schema\Metadata\AttributeConsumingService.cs" />
     <Compile Include="Schema\Metadata\AuthnAuthorityDescriptor.cs" />
@@ -257,6 +258,7 @@
     <Compile Include="Schema\Metadata\PDPDescriptor.cs" />
     <Compile Include="Schema\Metadata\RequestedAttribute.cs" />
     <Compile Include="Schema\Metadata\RoleDescriptor.cs" />
+    <Compile Include="Schema\Metadata\SecurityTokenServiceType.cs" />
     <Compile Include="Schema\Metadata\SPSSODescriptor.cs" />
     <Compile Include="Schema\Metadata\SSODescriptor.cs" />
     <Compile Include="Schema\Protocol\ArtifactResolve.cs" />

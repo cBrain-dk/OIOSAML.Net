@@ -111,7 +111,13 @@ namespace dk.nita.saml20.config
         [XmlAttribute("sessionType")]
         public string SessionType;
 
-        private ActionsConfig _actions;
+        /// <summary>
+        /// The type of the claims validator. Provide the fully qualified name of the type implementing the <see cref="ISaml20AssertionValidator"/> interface.
+        /// </summary>
+        [XmlAttribute("assertionValidatorType")]
+        public string AssertionValidatorType;
+
+    private ActionsConfig _actions;
 
         /// <summary>
         /// Gets the actions.

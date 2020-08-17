@@ -70,14 +70,14 @@ namespace dk.nita.saml20
                     if (config == null || config.AllowedAudienceUris == null)
                     {
                         if (profile == AssertionProfile.DKSaml)
-                            _assertionValidator = new DKSaml20AssertionValidator(null, _quirksMode);
+                            _assertionValidator = BuildDKValidator(null, _quirksMode);
                         else
                             _assertionValidator = new Saml20AssertionValidator(null, _quirksMode);
                     }
                     else
                     {
                         if (profile == AssertionProfile.DKSaml)
-                            _assertionValidator = new DKSaml20AssertionValidator(config.AllowedAudienceUris.Audiences, _quirksMode);
+                            _assertionValidator = BuildDKValidator(config.AllowedAudienceUris.Audiences, _quirksMode);
                         else
                             _assertionValidator = new Saml20AssertionValidator(config.AllowedAudienceUris.Audiences, _quirksMode);
                     }
@@ -86,11 +86,41 @@ namespace dk.nita.saml20
             }
         }
 
-        /// <summary>
-        /// A strongly-typed version of the Saml Assertion. It is lazily generated based on the contents of the
-        /// <code>_samlAssertion</code> field.
-        /// </summary>
-        public Assertion Assertion
+
+    private ISaml20AssertionValidator BuildDKValidator(List<string> allowedAudienceUris, bool quirksMode)
+    {
+      var type = FederationConfig.GetConfig().AssertionValidatorType;
+      if (!string.IsNullOrEmpty(type))
+      {
+        try
+        {
+          var t = Type.GetType(type);
+          if (t != null)
+          {
+            return (ISaml20AssertionValidator)Activator.CreateInstance(t, allowedAudienceUris, quirksMode);
+          }
+          else
+          {
+            throw new Exception(string.Format("The type {0} is not available for the audit logging. Please check the type name and assembly", type));
+          }
+        }
+        catch (Exception e)
+        {
+          Trace.TraceData(System.Diagnostics.TraceEventType.Critical, "Could not instantiate the configured auditLogger. Message: " + e.Message);
+          throw;
+        }
+      }
+      else
+      {
+        return new DKSaml20AssertionValidator(allowedAudienceUris, quirksMode);
+      }
+    }
+
+    /// <summary>
+    /// A strongly-typed version of the Saml Assertion. It is lazily generated based on the contents of the
+    /// <code>_samlAssertion</code> field.
+    /// </summary>
+    public Assertion Assertion
         {
             get
             {

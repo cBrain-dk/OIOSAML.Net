@@ -26,6 +26,11 @@ namespace dk.nita.saml20
         public const string METADATA = "urn:oasis:names:tc:SAML:2.0:metadata";
 
         /// <summary>
+        /// The XML namespace of WS-FED
+        /// </summary>
+        public const string FEDERATION = "http://docs.oasis-open.org/wsfed/federation/200706";
+
+        /// <summary>
         /// All the namespaces defined and reserved by the SAML 2.0 standard
         /// </summary>
         public static readonly string[] SAML_NAMESPACES = new string[] { ASSERTION, PROTOCOL, METADATA };
