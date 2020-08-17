@@ -8,7 +8,7 @@ using Trace=dk.nita.saml20.Utils.Trace;
 
 namespace dk.nita.saml20.Validation
 {
-    internal class Saml20AssertionValidator : ISaml20AssertionValidator
+    public class Saml20AssertionValidator : ISaml20AssertionValidator
     {
         private readonly List<string> _allowedAudienceUris;
         protected bool _quirksMode;

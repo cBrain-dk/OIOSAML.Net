@@ -5,9 +5,9 @@ using dk.nita.saml20.Schema.Protocol;
 
 namespace dk.nita.saml20.Validation
 {
-    internal class DKSaml20AttributeValidator : ISaml20AttributeValidator
+    public class DKSaml20AttributeValidator : ISaml20AttributeValidator
     {
-        public void ValidateAttribute(SamlAttribute samlAttribute)
+        public virtual void ValidateAttribute(SamlAttribute samlAttribute)
         {            
             if (!Uri.IsWellFormedUriString(samlAttribute.Name, UriKind.Absolute))
                 throw new DKSaml20FormatException("The DK-SAML 2.0 profile requires that an attribute's \"Name\" is an URI.");

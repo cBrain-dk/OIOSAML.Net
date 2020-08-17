@@ -6,14 +6,14 @@ using dk.nita.saml20.Utils;
 
 namespace dk.nita.saml20.Validation
 {
-    internal class DKSaml20StatementValidator : ISaml20StatementValidator
+    public class DKSaml20StatementValidator : ISaml20StatementValidator
     {
 
         #region Properties
 
-        private ISaml20AttributeValidator _attributeValidator;
+        protected ISaml20AttributeValidator _attributeValidator;
 
-        public ISaml20AttributeValidator AttributeValidator
+        public virtual ISaml20AttributeValidator AttributeValidator
         {
             get
             {

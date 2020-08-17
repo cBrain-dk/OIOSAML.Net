@@ -456,21 +456,24 @@ namespace dk.nita.saml20.config
             if (!_fileToEntity.ContainsKey(filename))
             {
                 var metadataDoc = ParseFile(filename);
-                var endp = FindEndPoint(metadataDoc.EntityId);
-                if (endp == null) // If the endpoint does not exist, create it.
+                if (metadataDoc != null)
                 {
-                    endp = new IDPEndPoint()
+                    var endp = FindEndPoint(metadataDoc.EntityId);
+                    if (endp == null) // If the endpoint does not exist, create it.
                     {
-                        Id = metadataDoc.EntityId,
-                        Name = metadataDoc.EntityId,
-                        metadata = metadataDoc
-                    };
-                    IDPEndPoints.Add(endp);
-                    _fileToEntity.Add(filename, endp.Id);
-                }
-                else
-                {
-                    HandleUpdateIdp(filename);
+                        endp = new IDPEndPoint()
+                        {
+                            Id = metadataDoc.EntityId,
+                            Name = metadataDoc.EntityId,
+                            metadata = metadataDoc
+                        };
+                        IDPEndPoints.Add(endp);
+                        _fileToEntity.Add(filename, endp.Id);
+                    }
+                    else
+                    {
+                        HandleUpdateIdp(filename);
+                    }
                 }
             }
             else
@@ -490,10 +493,16 @@ namespace dk.nita.saml20.config
             if (!Directory.Exists(MetadataLocation))
                 throw new DirectoryNotFoundException(string.Format(Resources.MetadataLocationNotFound, MetadataLocation));
 
-            string[] files = Directory.GetFiles(MetadataLocation);
+            string[] files = Directory.GetFiles(MetadataLocation, "*.config");
             foreach (string file in files)
             {
                 HandleCreateIdp(file);
+            }
+
+            foreach (var idp in IDPEndPoints)
+            {
+                if (idp.metadata == null)
+                  throw new InvalidDataException($"The IDPEndpoint refering to id \"{idp.Id}\" does not have a corresponding metadata file.");
             }
 
             InitializeFileSystemWatcher();
